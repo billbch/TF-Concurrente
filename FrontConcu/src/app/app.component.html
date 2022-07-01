@@ -1,0 +1,41 @@
+<div class="modal-body row">
+  <div class="col-md-6">
+    <form class="form">
+      <div class="mb-3">
+        <label class="text form-label">User ID</label>
+        <input  type="text" [(ngModel)]="userid" [ngModelOptions]="{standalone: true}"class="input form-control" >
+      </div>
+      <div class="mb-3">
+        <label class="text form-label">Mensaje</label>
+        <textarea class="form-control" id="exampleFormControlTextarea5" rows="3" [(ngModel)]="message" [ngModelOptions]="{standalone: true}"></textarea>
+      </div>
+      <div class="mb-3">
+        <label class="text form-label">Fecha de publicación</label>
+        <input type="date" [(ngModel)]="date" [ngModelOptions]="{standalone: true}" class="input form-control">
+      </div>
+      <button type="submit" (click)="CreateUser()" class="botona btn btn-primary ">Agregar</button>
+      <button type="submit" (click)="GetUser()" class="btn btn-primary ">Listar</button>
+      </form>
+  </div>
+  <div class="col-md-6">
+    <table class="table  table-striped">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">User ID</th>
+          <th scope="col">Mensaje</th>
+          <th scope="col">Fecha de publicación</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let id of list1;let i=index">
+          <th scope="row">{{i+1}}</th>
+          <td>{{list1[i].user_id}}</td>
+          <td>{{list1[i].message}}</td>
+          <td>{{list1[i].publish_date}}</td>
+        </tr>
+        
+      </tbody>
+    </table>
+  </div>
+</div>
