@@ -183,7 +183,6 @@ func connectToNode(remote string) {
 		data := frame.Data[0]
 		ba := []byte(data)
 
-		log.Printf("%s: El blockchain recibido es: %s.\n", host, string(ba))
 		json.Unmarshal(ba, &received_blockchain)
 
 		localBlockchain = received_blockchain
@@ -229,7 +228,6 @@ func server() {
 		log.Printf("Listening on %s\n", host)
 		for {
 			if cn, err := ln.Accept(); err == nil {
-				log.Printf("%s: estoy en server\n", host)
 				go fauxDispatcher(cn)
 			} else {
 				log.Printf("%s: Can't accept connection.\n", host)
@@ -240,18 +238,12 @@ func server() {
 	}
 }
 func fauxDispatcher(cn net.Conn) {
-	
-	log.Printf("%s: entro en faux\n", host)
 
 	defer cn.Close()
-	log.Printf("%s: entro en faux - despues de defer\n", host)
 
 	dec := json.NewDecoder(cn)
-	log.Printf("%s: entro en faux - despues de 271\n", host)
 	frame := &Frame{}
-	log.Printf("%s: entro en faux - despues de 273\n", host)
 	dec.Decode(frame)
-	log.Printf("%s: entro en faux - despues de 275\n", host)
 	
 	log.Printf("%s: fauxDispatcher :: %s - %s - %s\n", host, frame.Cmd, frame.Sender, frame.Data)
 
@@ -276,12 +268,10 @@ func fauxDispatcher(cn net.Conn) {
 			var datos Tweet
 			data := frame.Data[0]
 
-			log.Printf("%s: fauxDispatcher - New block data[0] :: %s\n", host, data)
 			ba := []byte(data)
 
 			json.Unmarshal(ba, &datos)
 			
-			log.Printf("%s: fauxDispatcher - New block :: %s\n", host, datos.User_id)
 			go startNewBlock(datos)
 		case "get_blockchain":
 			handleGetBlockchain(cn, frame)
@@ -301,15 +291,12 @@ func ApiDispatcher(frame *Frame, cn net.Conn) {
 				var datos Tweet
 				data := ApiFrame.Data[0]
 
-				log.Printf("%s: ApiDispatcher - New block data[0] :: %s\n", host, data)
 				ba := []byte(data)
 
 				json.Unmarshal(ba, &datos)
 				
-				log.Printf("%s: ApiDispatcher - New block :: %s\n", host, datos.User_id)
 				go startNewBlock(datos)
 			case "api_get_blockchain":
-				log.Printf("%s: entro en API - estoy en get_blockchain\n", host)
 				handleApiGetBlockchain(cn)
 
 				//fauxDispatcher(cn)
@@ -318,12 +305,11 @@ func ApiDispatcher(frame *Frame, cn net.Conn) {
 		}
 
 		dec := json.NewDecoder(cn)
-		log.Printf("%s: entro en API - despues de 354\n", host)
-		ApiFrame = &Frame{}
-		log.Printf("%s: entro en API - despues de 356\n", host)
-		dec.Decode(ApiFrame)
-		log.Printf("%s: entro en API - despues de 358\n", host)
 		
+		ApiFrame = &Frame{}
+		
+		dec.Decode(ApiFrame)
+				
 		log.Printf("%s: ApiDispatcher :: %s - %s - %s\n", host, ApiFrame.Cmd, ApiFrame.Sender, ApiFrame.Data)
 	}
 }
@@ -339,11 +325,7 @@ func handleAddBlock(frame *Frame) {
 	data := frame.Data[0]
 	ba := []byte(data)
 
-	log.Printf("%s: Add Block - Received data :: %s\n", host, data)
-
 	json.Unmarshal(ba, &datos)
-
-	//log.Printf("%s: Received Tweet con nombre :: %s\n", host, datos.Nombre)
 
 	newBlock = CreateBlock(datos)
 	
@@ -525,8 +507,6 @@ func handleResult() {
 				dec.Decode(&frame)
 				data := frame.Data[0]
 				ba := []byte(data)
-
-				log.Printf("%s: El blockchain recibido es: %s.\n", host, string(ba))
 				json.Unmarshal(ba, &received_blockchain)
 
 				localBlockchain = received_blockchain
