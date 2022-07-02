@@ -86,9 +86,9 @@ func main() {
 				go startConsensus()
 			case "new_block":
 				datos := Tweet {
-					User_id: "tilin",
-					Message: "volvio Abimael",
-					Publish_date: "30-06-2022",
+					User_id: "noticieroCMM",
+					Message: "Hubo un incendio en Ayacucho",
+					Publish_date: "01-07-2022",
 				}
 				go startNewBlock(datos)
 			}
