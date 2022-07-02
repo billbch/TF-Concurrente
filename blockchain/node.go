@@ -131,8 +131,6 @@ func (block Block) generateHash() string {
 	return hex.EncodeToString(hash.Sum(nil))
 }
 func startNewBlock(datos Tweet) {
-	time.Sleep(3 * time.Second)
-
 	remotes := <-chRemotes
 	chRemotes <- remotes
 
@@ -149,7 +147,6 @@ func startNewBlock(datos Tweet) {
 	go startConsensus()
 }
 func startAgrawalla() {
-	time.Sleep(3 * time.Second)
 	remotes := <-chRemotes
 	chRemotes <- remotes
 	for _, remote := range remotes {
@@ -435,7 +432,6 @@ func handleStart() {
 	criticalSection()
 }
 func handleConsensus() {
-	time.Sleep(3 * time.Second)
 	/*fmt.Print("A o B, elige: ")
 	fmt.Scanf("%s\n", &op)*/
 	InfoCons := InfoCons{}
